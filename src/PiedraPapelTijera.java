@@ -38,9 +38,9 @@ public class PiedraPapelTijera {
         int jugador = 0;
         int IA = 0;
         int empate = 0;
-        int porjugador;
-        int poria;
-        int porempate;
+        double porjugador;
+        double poria;
+        double porempate;
 
         int piedra = 0;
         int papel = 0;
@@ -56,9 +56,9 @@ public class PiedraPapelTijera {
                 IA++;
             } else empate++;
         }
-        porjugador = jugador * 20;
-        poria = IA * 20;
-        porempate = empate * 20;
+        porjugador = jugador/(jugadas.length/2.0) *100;
+        poria = IA/(jugadas.length/2.0) *100;
+        porempate = empate/(jugadas.length/2.0) * 100;
 
         for (int i = 0; i < jugadas.length; i++) {
             switch (jugadas[i]) {
@@ -70,9 +70,9 @@ public class PiedraPapelTijera {
                 break;
             }
         }
-        porpiedra = piedra * 10;
-        portijera = tijera * 10;
-        porpapel = papel * 10;
+        porpiedra = piedra/jugadas.length + 100;
+        portijera = tijera/jugadas.length + 100;
+        porpapel = papel/jugadas.length + 100;
 
         System.out.println("El jugador ha gandado " + porjugador + "%");
         System.out.println("La maquina ha gandado " + poria + "%");
@@ -89,6 +89,16 @@ public class PiedraPapelTijera {
         System.out.println("Introduce Piedra Papel o Tijera");
 
         String[] jugadas = new String[10];
+        // Para usar todos los metodos y que funcione el programa he utilizado un bucle que va de 2 en
+        // porque son 10 jugadas pero solo 5 rondas i 2 jugadas por cada ronda.
+
+        // El bucle empiza pidiendo la jugada al jugador, seguidamente se le asigna el resultado aleatorio a un
+        // estring porque si nos al volver a utilizar aleatorio seria otro resultado, luego se imprime la jugada
+        // de la ia por pantallañ.
+
+        // Por ultimo se introduce la jugada del jugador (que siempre seran los numeros impares de la array)
+        // y la jugada de la ia (que simpre seran los nomero pares de la array) en la array que utilizamos
+        // en el metodo muestraestadisticas
 
         for (int i = 0; i < jugadas.length - 1; i += 2) {
             String jugador = introducir.next();
