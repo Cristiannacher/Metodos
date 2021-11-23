@@ -1,39 +1,50 @@
-import javax.xml.parsers.SAXParser;
 import java.util.Scanner;
 
-public class PiedraPapelTijera {
+public class PiedraPapelTijeraModificado {
 
-    public static String aleatorio() {
+    public enum Jugadas {
+        PIEDRA,
+        PAPEL,
+        TIJERA
+    }
 
-        String[] maquina = {"Piedra", "Papel", "Tijera"};
+    public enum Participantes{
+        USUARIO,
+        IA,
+        EMPATE
+    }
+
+    public static Jugadas aleatorio() {
+
+        Jugadas[] maquina = {Jugadas.PIEDRA, Jugadas.PAPEL, Jugadas.TIJERA};
 
         int aleatorio = (int) (Math.random() * maquina.length);
 
         return maquina[aleatorio];
     }
 
-    public static String ganador(String jugadau, String jugadai) {
+    public static Participantes ganador(Jugadas jugadau, Jugadas jugadai) {
 
-        String resultado;
+        Participantes resultado;
 
-        if (jugadau.equals("Piedra") && jugadai.equals("Papel")) {
-            resultado = "IA";
-        } else if (jugadau.equals("Piedra") && jugadai.equals("Tijera")) {
-            resultado = "Usuario";
-        } else if (jugadau.equals("Papel") && jugadai.equals("Piedra")) {
-            resultado = "Usuario";
-        } else if (jugadau.equals("Papel") && jugadai.equals("Tijera")) {
-            resultado = "IA";
-        } else if (jugadau.equals("Tijera") && jugadai.equals("Piedra")) {
-            resultado = "IA";
-        } else if (jugadau.equals("Tijera") && jugadai.equals("Papel")) {
-            resultado = "Usuario";
-        } else resultado = "Empate";
+        if (jugadau.equals(Jugadas.PIEDRA) && jugadai.equals(Jugadas.PAPEL)) {
+            resultado = Participantes.IA;
+        } else if (jugadau.equals(Jugadas.PIEDRA) && jugadai.equals(Jugadas.TIJERA)) {
+            resultado = Participantes.USUARIO;
+        } else if (jugadau.equals(Jugadas.PAPEL) && jugadai.equals(Jugadas.PIEDRA)) {
+            resultado = Participantes.USUARIO;
+        } else if (jugadau.equals(Jugadas.PAPEL) && jugadai.equals(Jugadas.TIJERA)) {
+            resultado = Participantes.IA;
+        } else if (jugadau.equals(Jugadas.TIJERA) && jugadai.equals(Jugadas.PIEDRA)) {
+            resultado = Participantes.IA;
+        } else if (jugadau.equals(Jugadas.TIJERA) && jugadai.equals(Jugadas.PAPEL)) {
+            resultado = Participantes.USUARIO;
+        } else resultado = Participantes.EMPATE;
 
         return resultado;
     }
 
-    public static void musestraEstadisticas(String[] jugadas) {
+    public static void musestraEstadisticas(Jugadas[] jugadas) {
 
         int jugador = 0;
         int IA = 0;
@@ -45,14 +56,14 @@ public class PiedraPapelTijera {
         int piedra = 0;
         int papel = 0;
         int tijera = 0;
-        int porpiedra;
-        int portijera;
-        int porpapel;
+        double porpiedra;
+        double portijera;
+        double porpapel;
 
         for (int i = 0; i < jugadas.length - 1; i += 2) {
-            if (ganador(jugadas[i], jugadas[i + 1]).equals("Usuario")) {
+            if (ganador(jugadas[i], jugadas[i + 1]) == Participantes.USUARIO) {
                 jugador++;
-            } else if (ganador(jugadas[i], jugadas[i + 1]).equals("IA")) {
+            } else if (ganador(jugadas[i], jugadas[i + 1]) == Participantes.IA) {
                 IA++;
             } else empate++;
         }
@@ -62,17 +73,17 @@ public class PiedraPapelTijera {
 
         for (int i = 0; i < jugadas.length; i++) {
             switch (jugadas[i]) {
-                case "Piedra": piedra++;
-                    break;
-                case "Papel" : papel++;
-                    break;
-                case "Tijera" : tijera++;
-                    break;
+                case PIEDRA: piedra++;
+                break;
+                case PAPEL: papel++;
+                break;
+                case TIJERA: tijera++;
+                break;
             }
         }
-        porpiedra = piedra/jugadas.length + 100;
-        portijera = tijera/jugadas.length + 100;
-        porpapel = papel/jugadas.length + 100;
+        porpiedra = piedra/(double) jugadas.length * 100;
+        portijera = tijera/(double)jugadas.length * 100;
+        porpapel = papel/(double)jugadas.length * 100;
 
         System.out.println("El jugador ha gandado " + porjugador + "%");
         System.out.println("La maquina ha gandado " + poria + "%");
@@ -82,13 +93,13 @@ public class PiedraPapelTijera {
         System.out.println("Ha salido " + porpapel + "%" + "papel");
     }
 
-
     public static void main(String[] args) {
 
         Scanner introducir = new Scanner(System.in);
         System.out.println("Introduce Piedra Papel o Tijera");
 
-        String[] jugadas = new String[10];
+
+        Jugadas[] jugadas = new Jugadas[10];
         // Para usar todos los metodos y que funcione el programa he utilizado un bucle que va de 2 en
         // porque son 10 jugadas pero solo 5 rondas i 2 jugadas por cada ronda.
 
@@ -101,8 +112,8 @@ public class PiedraPapelTijera {
         // en el metodo muestraestadisticas
 
         for (int i = 0; i < jugadas.length - 1; i += 2) {
-            String jugador = introducir.next();
-            String aleatorio = aleatorio();
+            Jugadas jugador = Jugadas.valueOf(introducir.next().toUpperCase());
+            Jugadas aleatorio = aleatorio();
             System.out.println(aleatorio);
             jugadas[i] = jugador;
             jugadas[i + 1] = aleatorio;

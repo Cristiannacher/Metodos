@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Primo {
 
-    public static boolean esPrimo(int num) {
+    public static boolean esPrimo(int  num) {
 
         boolean esprimo = true;
 
